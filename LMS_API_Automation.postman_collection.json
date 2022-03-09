@@ -1,0 +1,4446 @@
+{
+	"info": {
+		"_postman_id": "1db4dbe8-1a91-4cbe-b73f-dcb4e295cf67",
+		"name": "LMS_API_Automation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Users",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									"var usersSchema={",
+									"    \"$schema\": \"http://json-schema.org/draft-06/schema\",",
+									"    \"$id\": \"https://test.carriersedge.com/ce_test/rest_api\",",
+									"    \"type\": \"array\",",
+									"    \"items\": {",
+									"        \"$id\": \"#/items\",",
+									"        \"anyOf\": [",
+									"            {",
+									"                \"$id\": \"#/items/anyOf/0\",",
+									"                \"type\": \"object\",",
+									"                \"required\": [",
+									"                    \"username\",",
+									"                    \"firstName\",",
+									"                    \"lastName\",",
+									"                    \"passwordHint\",",
+									"                    \"carrier\",",
+									"                    \"carrierId\",",
+									"                    \"status\",",
+									"                    \"carrierStatus\",",
+									"                    \"roleLevel\",",
+									"                    \"worstCourseStatus\",",
+									"                    \"statusPercent\",",
+									"                    \"locked\",",
+									"                    \"location\",",
+									"                    \"acctMgr\"                   ",
+									"                ],",
+									"                \"properties\": {",
+									"                    \"username\": {",
+									"                        \"$id\": \"#/items/anyOf/0/properties/username\",",
+									"                        \"type\": \"string\"",
+									"                    },",
+									"                    \"firstName\": {",
+									"                        \"$id\": \"#/items/anyOf/0/properties/firstName\",",
+									"                        \"type\": \"string\"",
+									"                    },",
+									"                    \"lastName\": {",
+									"                        \"$id\": \"#/items/anyOf/0/properties/lastName\",",
+									"                        \"type\": \"string\"",
+									"                    },",
+									"                    \"passwordHint\": {",
+									"                        \"$id\": \"#/items/anyOf/0/properties/passwordHint\",",
+									"                        \"type\": \"string\"",
+									"                    },",
+									"                    \"email\": {",
+									"                        \"$id\": \"#/items/anyOf/0/properties/email\",",
+									"                        \"type\": \"string\"",
+									"                    },",
+									"                    \"status\": {",
+									"                        \"$id\": \"#/items/anyOf/0/properties/status\",",
+									"                        \"type\": \"number\"",
+									"                    },",
+									"                    \"roleLevel\": {",
+									"                        \"$id\": \"#/items/anyOf/0/properties/roleLevel\",",
+									"                        \"type\": \"number\"",
+									"                    },",
+									"                    \"worstCourseStatus\": {",
+									"                        \"$id\": \"#/items/anyOf/0/properties/worstCourseStatus\",",
+									"                        \"type\": \"number\"",
+									"                    },",
+									"                    \"statusPercent\": {",
+									"                        \"$id\": \"#/items/anyOf/0/properties/statusPercent\",",
+									"                        \"type\": \"number\"",
+									"                    },",
+									"                    \"locked\": {",
+									"                        \"$id\": \"#/items/anyOf/0/properties/locked\",",
+									"                        \"type\": \"boolean\"",
+									"                    },",
+									"                    \"location\": {",
+									"                        \"$id\": \"#/items/anyOf/0/properties/location\",",
+									"                        \"type\": \"object\",",
+									"                        \"required\": [",
+									"                            \"id\",",
+									"                            \"name\"",
+									"                        ],",
+									"                        \"properties\": {",
+									"                            \"id\": {",
+									"                                \"$id\": \"#/items/anyOf/0/properties/location/properties/id\",",
+									"                                \"type\": \"number\"",
+									"                            },",
+									"                            \"name\": {",
+									"                                \"$id\": \"#/items/anyOf/0/properties/location/properties/name\",",
+									"                                \"type\": \"string\"",
+									"                            }",
+									"                        },",
+									"                        \"additionalProperties\": true",
+									"                    },",
+									"                    \"acctMgr\": {",
+									"                        \"$id\": \"#/items/anyOf/0/properties/acctMgr\",",
+									"                        \"type\": \"boolean\"",
+									"                    }",
+									"                },",
+									"                \"additionalProperties\": true",
+									"            }",
+									"        ]",
+									"    }",
+									"};",
+									"pm.environment.set(\"usersSchema\", usersSchema);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response must be valid and have a body\", function() {",
+									"    pm.response.to.be.success;",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"    pm.response.to.not.be.error;",
+									"});",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Current user is in the list\", function () {",
+									"let user=pm.environment.get(\"uname\");",
+									"     pm.expect(pm.response.text()).to.include(user);",
+									"    //  console.log(pm.response.text());",
+									"     console.log(\"username: \"+user);",
+									"});",
+									"pm.test('Response has at least 1 data', () => {",
+									"    pm.expect(jsonData.length).is.greaterThan(0);",
+									"});",
+									"pm.test(\"Response has property username\", function () {",
+									"    pm.expect(jsonData[0]).to.have.property('username');",
+									"});",
+									"// This is a very strict check, if any one of the properties is missing or added the test will fail.",
+									"// To pass the test At least a data should be present.",
+									"pm.test(\"Response has all following property username,firstName,lastName,passwordHint,email,status,roleLevel,worstCourseStatus,statusPercent,locked,location,acctMgr\", function () {",
+									"    pm.expect(jsonData[0]).to.have.property('username');",
+									"    pm.expect(jsonData[0]).to.have.all.keys('username', 'firstName', 'lastName', 'passwordHint','carrier','carrierId','status' ,'carrierStatus','roleLevel','worstCourseStatus','statusPercent','locked','location','acctMgr');",
+									"})",
+									"",
+									"",
+									"pm.test(\"Response user name is string\", function () { ",
+									"   pm.expect(jsonData[0].username).to.be.a('string');",
+									"   console.log(jsonData.length);",
+									"});",
+									"",
+									"pm.test('Schema is valid', function () {",
+									"    pm.expect(tv4.validate(jsonData, pm.environment.get(\"usersSchema\"))).to.be.true;",
+									"    ",
+									"});",
+									"pm.environment.unset(\"usersSchema\");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users Last name start with a letter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let lowercase =\r",
+									"    pm.variables.get(\"letter\").toLowerCase();\r",
+									"let uppercase =\r",
+									"    pm.variables.get(\"letter\").toUpperCase();\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// check last name of users\r",
+									"pm.test(\"Data last name starts with a given letter\", function () {   \r",
+									"    console.log(\"User numbers: \" +jsonData.length);\r",
+									"    for (let i = 0; i < jsonData.length; i++) {\r",
+									"     console.log(jsonData[i].lastName)\r",
+									"    //  pm.expect(jsonData[i].lastName.startsWith(\"u\")).to.be.true; \r",
+									"     pm.expect(jsonData[i].lastName.startsWith(lowercase)||jsonData[i].lastName.startsWith(uppercase)).to.be.true;  \r",
+									"}    \r",
+									"});\r",
+									"pm.test(\"Response has all following property username,firstName,lastName,carrierId,carrierStatus,status,and location\", function () {\r",
+									"    pm.expect(jsonData[0]).to.have.property('username');\r",
+									"    pm.expect(jsonData[0]).to.have.property('firstName');\r",
+									"    pm.expect(jsonData[0]).to.have.property('lastName');\r",
+									"    pm.expect(jsonData[0]).to.have.property('carrierId');\r",
+									"    pm.expect(jsonData[0]).to.have.property('carrierStatus');\r",
+									"    pm.expect(jsonData[0]).to.have.property('status');\r",
+									"    pm.expect(jsonData[0]).to.have.property('location');    \r",
+									"})\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"letter\", \"d\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/users?letter={{letter}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "letter",
+									"value": "{{letter}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users in a given region",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test('Status code is OK', () => {\r",
+									"    pm.response.to.be.success\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// use the below id when carrier is ProcessAutomation5\r",
+									"pm.variables.set(\"subcompanyId\", 4222);\r",
+									"// use the below id when carrier is ProcessAutomation4 otherwise it will give wrong result\r",
+									"// pm.variables.set(\"subcompanyId\", 4160);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/users?subcompanyId={{subcompanyId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "subcompanyId",
+									"value": "{{subcompanyId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users filter by term",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is Json\", function () {\r",
+									"   pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// veriable for parameter term, change the term, we will get different response\r",
+									"pm.variables.set(\"term\", \"b\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/users?term={{term}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "term",
+									"value": "{{term}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users Recently modified",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header contain application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/users?recentlyModified=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "recentlyModified",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"//Check wheather login is true or not\r",
+									"pm.test(\"Login true\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"true\");\r",
+									"});\r",
+									"//check login response time\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Authentic user login success\", function () {\r",
+									"    pm.expect(jsonData.found).to.equal(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/v2/users/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"v2",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Logout true\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"true\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/v2/users/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"v2",
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData1 = pm.response.json();",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response must be valid and have a body\", function() {",
+									"    pm.response.to.be.success;",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"    pm.response.to.not.be.error;",
+									"});",
+									"pm.test(\"Response has showPersonalInfo\", function () {",
+									"    pm.expect(jsonData1).to.have.property('showPersonalInfo');",
+									"",
+									"});",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Response have all following property username,passwordHint,firstName,lastName,phone,company,created,createdBy,modified,modifiedBy,role,roleLevel,status,locked,sendUpdates,showPersonalInfo,location,extended,fileList,aliases,aliasTypes,langPref\", function () {",
+									"    pm.expect(jsonData1).to.have.property('username');",
+									"    pm.expect(jsonData1).to.have.all.keys('username', 'passwordHint', 'firstName', 'lastName', 'email','phone', 'company', 'created', 'createdBy', 'modifiedBy', 'role', 'roleLevel', 'status', 'locked', 'sendUpdates','showPersonalInfo', 'location', 'extended', 'fileList', 'aliases','aliasTypes', 'langPref');",
+									"})",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/users/details?username={{uname}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"users",
+								"details"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{uname}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Filters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response must be valid and have a body\", function() {",
+									"    pm.response.to.be.success;",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"    pm.response.to.not.be.error;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "divya.dtest",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "test",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/users/filters",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"users",
+								"filters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create and Update - Save User V2 (request body)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData1 = pm.response.json();",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response must be valid and have a body\", function() {",
+									"    pm.response.to.be.success;",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"    pm.response.to.not.be.error;",
+									"});",
+									"pm.test(\"Response has userLocationId\", function () {",
+									"    pm.expect(jsonData1).to.have.property('userLocationId'); ",
+									"",
+									"});",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"pm.test(\"Response have all following property firstName,lastName,userLocationId,privateUserDetailsSkipped,users,licenses,licensesAvailable,userDeleted,newUser,pk,interfaceName,phone,carrierId,success,setUsernameToLoginId\", function () {",
+									"    pm.expect(jsonData1).to.have.property('firstName');",
+									"    pm.expect(jsonData1).to.have.all.keys('firstName', 'lastName', 'userLocationId', 'privateUserDetailsSkipped','users', 'licenses', 'licensesAvailable', 'userDeleted', 'newUser','pk', 'interfaceName', 'phone', 'carrierId', 'success', 'setUsernameToLoginId');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "API-VERSION",
+								"value": "V2",
+								"description": "Mobile clients",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Adtest211\",\r\n    \"lastName\": \"Adtest21\",\r\n    \"username\": \"adtest1112\",\r\n    \"phone\": \"1(234)567-89-11 x123\",\r\n    \"pass\": \"test\",\r\n    \"passHint\": \"test\",\r\n    \"locationId\": 16682,\r\n    \"status\": 1,\r\n    \"emailUpdates\": true,\r\n    \"langPref\": \"en\",\r\n    \"email\": \"test@rmail.com\",\r\n    \"title\": \"Owner Opearator\",\r\n    \"role\": \"driver\",\r\n    \"allowCustomUsername\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/users/save",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"users",
+								"save"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Programs",
+			"item": [
+				{
+					"name": "Programs List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"// This is a very strict check, if any one of the properties is missing or added the test will fail.\r",
+									"// To pass the test At least a data should be present.\r",
+									"pm.test(\"Response has all following property 'name', 'desc', 'id', and 'programs'\", function () {\r",
+									"    // pm.expect(jsonData.types[0].name).to.have.property('name');\r",
+									"    pm.expect(jsonData.types[0]).to.have.all.keys('name', 'desc', 'id', 'programs');\r",
+									"})\r",
+									"pm.test(\"Response programs has all following property 'created', 'createdBy', 'modified','modifiedBy', 'deadlineDate','id','status','type','startDateType','deadlineType','deadlineDays','totalUsers','expired','removeComplete','removeDeadline','name','certifications','users','locations','modules'\", function () {\r",
+									"    pm.expect(jsonData.types[0].programs[0]).to.have.all.keys('created', 'createdBy', 'modified','modifiedBy', 'deadlineDate','id','status','type','startDateType','deadlineType','deadlineDays','totalUsers','expired','removeComplete','removeDeadline','name','certifications','users','locations','modules');\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/programs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"programs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Programs List -filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"pm.test(\"Content-Type header contain application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+									"});\r",
+									"\r",
+									"//Check users are not included in the response.\r",
+									"pm.test(\"Response does not have users\", function() {\r",
+									"    pm.expect(jsonData.types[0].programs[0].users == undefined).to.equal(true);\r",
+									"});\r",
+									"pm.test(\"Response programs has all following property: 'created', 'createdBy', 'modified','modifiedBy', 'deadlineDate','id','status','type','startDateType','deadlineType','deadlineDays','totalUsers','expired','removeComplete','removeDeadline','name','certifications','users','locations','modules'\", function () {\r",
+									"    pm.expect(jsonData.types[0].programs[0]).to.have.all.keys('created','id','status','type','startDateType','deadlineType','totalUsers','removeComplete','removeDeadline','name','certifications');\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/programs?simple=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"programs"
+							],
+							"query": [
+								{
+									"key": "simple",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Program Details",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var programDetailSchema={\r",
+									"    \"$schema\": \"http://json-schema.org/draft-06/schema\",\r",
+									"    \"$id\": \"https://test.carriersedge.com/ce_test/rest_api/programs/details\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"startDate\",\r",
+									"        \"deadlineDate\",\r",
+									"        \"id\",\r",
+									"        \"certificationId\",\r",
+									"        \"type\",\r",
+									"        \"startDateType\",\r",
+									"        \"startDateDays\",\r",
+									"        \"deadlineType\",\r",
+									"        \"deadlineDays\",\r",
+									"        \"automaticCert\",\r",
+									"        \"remove\",\r",
+									"        \"removeDeadline\",\r",
+									"        \"name\",\r",
+									"        \"certifications\",\r",
+									"        \"users\",\r",
+									"        \"locations\",\r",
+									"        \"modules\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"startDate\": {\r",
+									"            \"$id\": \"#/properties/startDate\",\r",
+									"            \"anyOf\": [\r",
+									"          {\"type\": \"string\"},\r",
+									"          {\"type\": \"null\"}\r",
+									"          ]\r",
+									"        },\r",
+									"        \"deadlineDate\": {\r",
+									"            \"$id\": \"#/properties/deadlineDate\",\r",
+									"            \"anyOf\": [\r",
+									"          {\"type\": \"string\"},\r",
+									"          {\"type\": \"null\"}\r",
+									"          ]\r",
+									"        },\r",
+									"        \"id\": {\r",
+									"            \"$id\": \"#/properties/id\",\r",
+									"            \"anyOf\": [\r",
+									"          {\"type\": \"number\"},\r",
+									"          {\"type\": \"null\"}\r",
+									"        ]\r",
+									"        },\r",
+									"        \"certificationId\": {\r",
+									"            \"$id\": \"#/properties/certificationId\",\r",
+									"            \"anyOf\": [\r",
+									"          {\"type\": \"number\"},\r",
+									"          {\"type\": \"null\"}\r",
+									"        ]\r",
+									"        },\r",
+									"        \"type\": {\r",
+									"            \"$id\": \"#/properties/type\",\r",
+									"            \"type\": \"number\"\r",
+									"        },\r",
+									"        \"startDateType\": {\r",
+									"            \"$id\": \"#/properties/startDateType\",\r",
+									"            \"type\": \"number\"\r",
+									"        },\r",
+									"        \"startDateDays\": {\r",
+									"            \"$id\": \"#/properties/startDateDays\",\r",
+									"            \"type\": \"null\"\r",
+									"        },\r",
+									"        \"deadlineType\": {\r",
+									"            \"$id\": \"#/properties/deadlineType\",\r",
+									"            \"type\": \"number\"\r",
+									"        },\r",
+									"        \"deadlineDays\": {\r",
+									"            \"$id\": \"#/properties/deadlineDays\",\r",
+									"            \"anyOf\": [\r",
+									"          {\"type\": \"number\"},\r",
+									"          {\"type\": \"null\"}\r",
+									"          ]\r",
+									"        },\r",
+									"        \"automaticCert\": {\r",
+									"            \"$id\": \"#/properties/automaticCert\",\r",
+									"            \"type\": \"boolean\"\r",
+									"        },\r",
+									"        \"remove\": {\r",
+									"            \"$id\": \"#/properties/remove\",\r",
+									"            \"type\": \"boolean\"\r",
+									"        },\r",
+									"        \"removeDeadline\": {\r",
+									"            \"$id\": \"#/properties/removeDeadline\",\r",
+									"            \"type\": \"boolean\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"            \"$id\": \"#/properties/name\",\r",
+									"            \"type\": \"object\",\r",
+									"            \"required\": [\r",
+									"                \"defaultName\",\r",
+									"                \"en\",\r",
+									"                \"fr\"\r",
+									"            ],\r",
+									"            \"properties\": {\r",
+									"                \"defaultName\": {\r",
+									"                    \"$id\": \"#/properties/name/properties/defaultName\",\r",
+									"                    \"type\": \"string\"\r",
+									"                },\r",
+									"                \"en\": {\r",
+									"                    \"$id\": \"#/properties/name/properties/en\",\r",
+									"                    \"type\": \"string\"\r",
+									"                },\r",
+									"                \"fr\": {\r",
+									"                    \"$id\": \"#/properties/name/properties/fr\",\r",
+									"                    \"type\": \"string\"\r",
+									"                }\r",
+									"            }\r",
+									"        },\r",
+									"        \"certifications\": {\r",
+									"            \"$id\": \"#/properties/certifications\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/certifications/items\"\r",
+									"            }\r",
+									"        },\r",
+									"        \"users\": {\r",
+									"            \"$id\": \"#/properties/users\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/users/items\"\r",
+									"            }\r",
+									"        },\r",
+									"        \"locations\": {\r",
+									"            \"$id\": \"#/properties/locations\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/locations/items\"\r",
+									"            }\r",
+									"        },\r",
+									"        \"modules\": {\r",
+									"            \"$id\": \"#/properties/modules\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/modules/items\",\r",
+									"                \"anyOf\": [\r",
+									"                    {\r",
+									"                        \"$id\": \"#/properties/modules/items/anyOf/0\",\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"required\": [\r",
+									"                            \"id\",\r",
+									"                            \"name\"\r",
+									"                        ],\r",
+									"                        \"properties\": {\r",
+									"                            \"id\": {\r",
+									"                                \"$id\": \"#/properties/modules/items/anyOf/0/properties/id\",\r",
+									"                                \"type\": \"number\"\r",
+									"                            },\r",
+									"                            \"name\": {\r",
+									"                                \"$id\": \"#/properties/modules/items/anyOf/0/properties/name\",\r",
+									"                                \"type\": \"string\"\r",
+									"                            }\r",
+									"                        }\r",
+									"                    }\r",
+									"                ]\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"};\r",
+									"pm.environment.set(\"programDetailSchema\", programDetailSchema);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});/*\r",
+									"var schema = {\r",
+									"    \"required\": [\r",
+									"        \"startDate\",\r",
+									"        \"deadlineDate\",\r",
+									"        \"id\",\r",
+									"        \"certificationId\",\r",
+									"        \"type\",\r",
+									"        \"startDateType\",\r",
+									"        \"startDateDays\",\r",
+									"        \"deadlineType\",\r",
+									"        \"deadlineDays\",\r",
+									"        \"automaticCert\",\r",
+									"        \"remove\",\r",
+									"        \"removeDeadline\",\r",
+									"        \"name\",\r",
+									"        \"certifications\",\r",
+									"        \"users\",\r",
+									"        \"locations\",\r",
+									"        \"modules\"\r",
+									"    ],\r",
+									"    \"id\": {\r",
+									"        \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"startDateType\": {\r",
+									"        \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"name\": {\r",
+									"      \"type\": \"object\",\r",
+									"      \"required\": [\r",
+									"        \"defaultName\",\r",
+									"        \"en\",\r",
+									"        \"fr\"],\r",
+									"      \"properties\": {\r",
+									"        \"defaultName\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"en\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"fr\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      }\r",
+									"      \r",
+									"    },\r",
+									"    \"certificationId\": {\r",
+									"        \"type\": \"integer\"\r",
+									"    }  \r",
+									"};\r",
+									"// this is checking only first level required property\r",
+									"pm.test(\"Validate schema only first level\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});*/\r",
+									"\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, pm.environment.get(\"programDetailSchema\"))).to.be.true;   \r",
+									"});\r",
+									"pm.environment.unset(\"programDetailSchema\");\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/programs/details?id=18111",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"programs",
+								"details"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "18111"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Program create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var programCreateSchema={\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"http://example.com/example.json\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"addUsers\",\r",
+									"        \"removeUsers\",\r",
+									"        \"tp\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"addUsers\": {\r",
+									"            \"$id\": \"#/properties/addUsers\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"removeUsers\": {\r",
+									"            \"$id\": \"#/properties/removeUsers\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"tp\": {\r",
+									"            \"$id\": \"#/properties/tp\",\r",
+									"            \"type\": \"object\",\r",
+									"            \"required\": [\r",
+									"                \"created\",\r",
+									"                \"id\",\r",
+									"                \"status\",\r",
+									"                \"name\"\r",
+									"            ],\r",
+									"            \"properties\": {\r",
+									"                \"created\": {\r",
+									"                    \"$id\": \"#/properties/tp/properties/created\",\r",
+									"                    \"type\": \"string\"\r",
+									"                },\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"#/properties/tp/properties/id\",\r",
+									"                    \"type\": \"integer\"\r",
+									"                },\r",
+									"                \"status\": {\r",
+									"                    \"$id\": \"#/properties/tp/properties/status\",\r",
+									"                    \"type\": \"integer\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"#/properties/tp/properties/name\",\r",
+									"                    \"type\": \"object\",\r",
+									"                    \"required\": [\r",
+									"                        \"defaultName\",\r",
+									"                        \"en\",\r",
+									"                        \"fr\"\r",
+									"                    ],\r",
+									"                    \"properties\": {\r",
+									"                        \"defaultName\": {\r",
+									"                            \"$id\": \"#/properties/tp/properties/name/properties/defaultName\",\r",
+									"                            \"type\": \"string\"\r",
+									"                        },\r",
+									"                        \"en\": {\r",
+									"                            \"$id\": \"#/properties/tp/properties/name/properties/en\",\r",
+									"                            \"type\": \"string\"\r",
+									"                        },\r",
+									"                        \"fr\": {\r",
+									"                            \"$id\": \"#/properties/tp/properties/name/properties/fr\",\r",
+									"                            \"type\": \"string\"\r",
+									"                        }\r",
+									"                    },\r",
+									"                    \"additionalProperties\": false\r",
+									"                }\r",
+									"            },\r",
+									"            \"additionalProperties\": false\r",
+									"        }\r",
+									"    },\r",
+									"    \"additionalProperties\": false\r",
+									"};\r",
+									"pm.environment.set(\"programCreateSchema\", programCreateSchema);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, pm.environment.get(\"programCreateSchema\"))).to.be.true;\r",
+									"    \r",
+									"});\r",
+									"pm.environment.unset(\"programCreateSchema\");\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "18055",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "tPlanName",
+									"value": "Rest API Prog1",
+									"type": "text"
+								},
+								{
+									"key": "tPlanNameFR",
+									"value": "REST API 1 Prg",
+									"type": "text"
+								},
+								{
+									"key": "programType",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "startDateType",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "startDateDays",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "deadlineType",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "deadlineDate",
+									"value": "2021-07-21",
+									"type": "text"
+								},
+								{
+									"key": "deadlineDays",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "certificationId",
+									"value": "1001",
+									"type": "text"
+								},
+								{
+									"key": "automatic_cert",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "includeAllRolesAssignment",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "resetStatus",
+									"value": "true",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sendNotice",
+									"value": "true",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "includeLogin",
+									"value": "true",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "removeDeadline",
+									"value": "false",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "remove",
+									"value": "true",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "userProgramsProgram",
+									"value": "user-auto5.user1,place-20533",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "modulesProgramsProgram",
+									"value": "module-312",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sortOrder",
+									"value": "0",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/programs/save",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"programs",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Program update",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var programCreateSchema={\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"http://example.com/example.json\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"addUsers\",\r",
+									"        \"removeUsers\",\r",
+									"        \"tp\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"addUsers\": {\r",
+									"            \"$id\": \"#/properties/addUsers\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"removeUsers\": {\r",
+									"            \"$id\": \"#/properties/removeUsers\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"tp\": {\r",
+									"            \"$id\": \"#/properties/tp\",\r",
+									"            \"type\": \"object\",\r",
+									"            \"required\": [\r",
+									"                \"created\",\r",
+									"                \"id\",\r",
+									"                \"status\",\r",
+									"                \"name\"\r",
+									"            ],\r",
+									"            \"properties\": {\r",
+									"                \"created\": {\r",
+									"                    \"$id\": \"#/properties/tp/properties/created\",\r",
+									"                    \"type\": \"string\"\r",
+									"                },\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"#/properties/tp/properties/id\",\r",
+									"                    \"type\": \"integer\"\r",
+									"                },\r",
+									"                \"status\": {\r",
+									"                    \"$id\": \"#/properties/tp/properties/status\",\r",
+									"                    \"type\": \"integer\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"#/properties/tp/properties/name\",\r",
+									"                    \"type\": \"object\",\r",
+									"                    \"required\": [\r",
+									"                        \"defaultName\",\r",
+									"                        \"en\",\r",
+									"                        \"fr\"\r",
+									"                    ],\r",
+									"                    \"properties\": {\r",
+									"                        \"defaultName\": {\r",
+									"                            \"$id\": \"#/properties/tp/properties/name/properties/defaultName\",\r",
+									"                            \"type\": \"string\"\r",
+									"                        },\r",
+									"                        \"en\": {\r",
+									"                            \"$id\": \"#/properties/tp/properties/name/properties/en\",\r",
+									"                            \"type\": \"string\"\r",
+									"                        },\r",
+									"                        \"fr\": {\r",
+									"                            \"$id\": \"#/properties/tp/properties/name/properties/fr\",\r",
+									"                            \"type\": \"string\"\r",
+									"                        }\r",
+									"                    },\r",
+									"                    \"additionalProperties\": false\r",
+									"                }\r",
+									"            },\r",
+									"            \"additionalProperties\": false\r",
+									"        }\r",
+									"    },\r",
+									"    \"additionalProperties\": false\r",
+									"};\r",
+									"pm.environment.set(\"programCreateSchema\", programCreateSchema);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"var schema = {\r",
+									"    \"required\": [\r",
+									"        \"startDate\",\r",
+									"        \"deadlineDate\",\r",
+									"        \"id\",\r",
+									"        \"certificationId\",\r",
+									"        \"type\",\r",
+									"        \"startDateType\",\r",
+									"        \"startDateDays\",\r",
+									"        \"deadlineType\",\r",
+									"        \"deadlineDays\",\r",
+									"        \"automaticCert\",\r",
+									"        \"remove\",\r",
+									"        \"removeDeadline\",\r",
+									"        \"name\",\r",
+									"        \"certifications\",\r",
+									"        \"users\",\r",
+									"        \"locations\",\r",
+									"        \"modules\"\r",
+									"    ],\r",
+									"    \"id\": {\r",
+									"        \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"startDateType\": {\r",
+									"        \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"name\": {\r",
+									"      \"type\": \"object\",\r",
+									"      \"required\": [\r",
+									"        \"defaultName\",\r",
+									"        \"en\",\r",
+									"        \"fr\"],\r",
+									"      \"properties\": {\r",
+									"        \"defaultName\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"en\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"fr\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      }\r",
+									"      \r",
+									"    },\r",
+									"    \"certificationId\": {\r",
+									"        \"type\": \"integer\"\r",
+									"    }  \r",
+									"};\r",
+									"// this is checking only first level required property\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, pm.environment.get(\"programCreateSchema\"))).to.be.true;\r",
+									"    \r",
+									"});\r",
+									"pm.environment.unset(\"programCreateSchema\");\r",
+									"\r",
+									"//This test fails if it runs more than 2 times continuously, This test is related to the privious request, both tests have to run in a sequence.\r",
+									"//pm.test(\"User is removed\", function () {\r",
+									"//    pm.expect(jsonData.addUsers).to.greaterThan(0);\r",
+									"//});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "18128",
+									"type": "text"
+								},
+								{
+									"key": "tPlanName",
+									"value": "Rest API 1234 Creat",
+									"type": "text"
+								},
+								{
+									"key": "tPlanNameFR",
+									"value": "REST API 1 FRE Creat",
+									"type": "text"
+								},
+								{
+									"key": "programType",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "startDateType",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "2022-03-21",
+									"type": "text"
+								},
+								{
+									"key": "startDateDays",
+									"value": "9",
+									"type": "text"
+								},
+								{
+									"key": "deadlineType",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "deadlineDate",
+									"value": "2021-08-21",
+									"type": "text"
+								},
+								{
+									"key": "deadlineDays",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "certificationId",
+									"value": "1001",
+									"type": "text"
+								},
+								{
+									"key": "automatic_cert",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "includeAllRolesAssignment",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "resetStatus",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "sendNotice",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "includeLogin",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "removeDeadline",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "remove",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "userProgramsProgram",
+									"value": "user-dtest.97,place-16682",
+									"type": "text"
+								},
+								{
+									"key": "modulesProgramsProgram",
+									"value": "module-312",
+									"type": "text"
+								},
+								{
+									"key": "sortOrder",
+									"value": "0",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/programs/save",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"programs",
+								"save"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Modules",
+			"item": [
+				{
+					"name": "Modules List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Response has all following property: 'module', 'name', 'id', 'desc'\", function () {\r",
+									"    pm.expect(jsonData.moduleGroups[0]).to.have.all.keys('module', 'name', 'id', 'desc');\r",
+									"})\r",
+									"pm.test(\"Response module has all following property: 'module', 'name', 'id', 'desc'\", function () {\r",
+									"    pm.expect(jsonData.moduleGroups[0].module[0]).to.have.all.keys('gid', 'topics', 'retraining', 'description','passingScore', 'users', 'deliveryPrivs', 'numQuestions', 'duration', 'name', 'repeatPeriod', 'tplans', 'id', 'numUsers', 'repeatNumber','status');\r",
+									"})\r",
+									"pm.test(\"Requiere Total modules number check\", function () {\r",
+									"    console.log(\"no of modules: \"+jsonData.moduleGroups[0].module.length);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/modules",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"modules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modules List- Modified/Created after given date",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Response has all following property: 'module', 'name', 'id', 'desc'\", function () {\r",
+									"    pm.expect(jsonData.moduleGroups[0]).to.have.all.keys('module', 'name', 'id', 'desc');\r",
+									"})\r",
+									"pm.test(\"Response module has all following property: 'gid', 'topics', 'retraining', 'description','passingScore', 'users', 'deliveryPrivs', 'numQuestions', 'duration', 'name', 'repeatPeriod', 'tplans', 'id', 'numUsers', 'repeatNumber','status'\", function () {\r",
+									"    pm.expect(jsonData.moduleGroups[0].module[0]).to.have.all.keys('gid', 'topics', 'retraining', 'description','passingScore', 'users', 'deliveryPrivs', 'numQuestions', 'duration', 'name', 'repeatPeriod', 'tplans', 'id', 'numUsers', 'repeatNumber','status');\r",
+									"})\r",
+									"pm.test(\"Requiere after modules number check\", function () {\r",
+									"    console.log(\"After-no of modules: \"+jsonData.moduleGroups[0].module.length);\r",
+									"});\r",
+									"/*pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, pm.environment.get(\"modulesSchema\"))).to.be.true;\r",
+									"    \r",
+									"});*/\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// var modulesSchema=[];\r",
+									"// pm.environment.set(\"modulesSchema\", modulesSchema);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/modules?calStart=2022-02-22",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"modules"
+							],
+							"query": [
+								{
+									"key": "calStart",
+									"value": "2022-02-22"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modules List- Modified/Created before given date",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.ok;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Response has all following property: 'module', 'name', 'id', 'desc'\", function () {\r",
+									"    pm.expect(jsonData.moduleGroups[0]).to.have.all.keys('module', 'name', 'id', 'desc');\r",
+									"})\r",
+									"pm.test(\"Response module has all following property: 'gid', 'topics', 'retraining', 'description','passingScore', 'users', 'deliveryPrivs', 'numQuestions', 'duration', 'name', 'repeatPeriod', 'tplans', 'id', 'numUsers', 'repeatNumber','status'\", function () {\r",
+									"    pm.expect(jsonData.moduleGroups[0].module[0]).to.have.all.keys('gid', 'topics', 'retraining', 'description','passingScore', 'users', 'deliveryPrivs', 'numQuestions', 'duration', 'name', 'repeatPeriod', 'tplans', 'id', 'numUsers', 'repeatNumber','status');\r",
+									"})\r",
+									"pm.test(\"Requiere modules number check\", function () {\r",
+									"    console.log(\"Modules in the time range: \"+jsonData.moduleGroups[0].module.length);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "divya.admin",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "test",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/modules?calEnd=2020-02-03",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"modules"
+							],
+							"query": [
+								{
+									"key": "calEnd",
+									"value": "2020-02-03"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modules List- Modified/Created in date range",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Response has all following property: 'module', 'name', 'id', 'desc'\", function () {\r",
+									"    pm.expect(jsonData.moduleGroups[0]).to.have.all.keys('module', 'name', 'id', 'desc');\r",
+									"})\r",
+									"pm.test(\"Response module has all following property: 'gid', 'topics', 'retraining', 'description','passingScore', 'users', 'deliveryPrivs', 'numQuestions', 'duration', 'name', 'repeatPeriod', 'tplans', 'id', 'numUsers', 'repeatNumber','status'\", function () {\r",
+									"    pm.expect(jsonData.moduleGroups[0].module[0]).to.have.all.keys('gid', 'topics', 'retraining', 'description','passingScore', 'users', 'deliveryPrivs', 'numQuestions', 'duration', 'name', 'repeatPeriod', 'tplans', 'id', 'numUsers', 'repeatNumber','status');\r",
+									"})\r",
+									"pm.test(\"Requiere modules number check\", function () {\r",
+									"    console.log(\"Before-no of modules: \"+jsonData.moduleGroups[0].module.length);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/modules?calStart=2022-02-02&calEnd=2022-02-03",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"modules"
+							],
+							"query": [
+								{
+									"key": "calStart",
+									"value": "2022-02-02"
+								},
+								{
+									"key": "calEnd",
+									"value": "2022-02-03"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modules List- Modified/Created any parameter giving response - EndDate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Expected to be error, has to modify later if this is not correct requirement.\r",
+									"pm.test(\"Response not to be error\", function() {\r",
+									"     pm.response.to.be.success;\r",
+									"     pm.response.to.be.withBody;\r",
+									"     pm.response.to.be.json;\r",
+									"     pm.response.to.not.be.error;\r",
+									"    //pm.response.to.be.error;\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Response has all following property: 'module', 'name', 'id', 'desc'\", function () {\r",
+									"    pm.expect(jsonData.moduleGroups[0]).to.have.all.keys('module', 'name', 'id', 'desc');\r",
+									"})\r",
+									"pm.test(\"Response module has all following property: 'gid', 'topics', 'retraining', 'description','passingScore', 'users', 'deliveryPrivs', 'numQuestions', 'duration', 'name', 'repeatPeriod', 'tplans', 'id', 'numUsers', 'repeatNumber','status'\", function () {\r",
+									"    pm.expect(jsonData.moduleGroups[0].module[0]).to.have.all.keys('gid', 'topics', 'retraining', 'description','passingScore', 'users', 'deliveryPrivs', 'numQuestions', 'duration', 'name', 'repeatPeriod', 'tplans', 'id', 'numUsers', 'repeatNumber','status');\r",
+									"})\r",
+									"pm.test(\"Requiere modules number check\", function () {\r",
+									"    console.log(\"Before-no of modules: \"+jsonData.moduleGroups[0].module.length);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/modules?calEnd=whatever",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"modules"
+							],
+							"query": [
+								{
+									"key": "calEnd",
+									"value": "whatever"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modules List- Modified/Created any parameter giving response - StartDate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Expected to be error, has to modify later if this is not correct requirement.\r",
+									"pm.test(\"Response not to be error\", function() {\r",
+									"     pm.response.to.be.success;\r",
+									"     pm.response.to.be.withBody;\r",
+									"     pm.response.to.be.json;\r",
+									"     pm.response.to.not.be.error;\r",
+									"    //pm.response.to.be.error;\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Response has all following property: 'module', 'name', 'id', 'desc'\", function () {\r",
+									"    pm.expect(jsonData.moduleGroups[0]).to.have.all.keys('module', 'name', 'id', 'desc');\r",
+									"})\r",
+									"pm.test(\"Response module has all following property: 'gid', 'topics', 'retraining', 'description','passingScore', 'users', 'deliveryPrivs', 'numQuestions', 'duration', 'name', 'repeatPeriod', 'tplans', 'id', 'numUsers', 'repeatNumber','status'\", function () {\r",
+									"    pm.expect(jsonData.moduleGroups[0].module[0]).to.have.all.keys('gid', 'topics', 'retraining', 'description','passingScore', 'users', 'deliveryPrivs', 'numQuestions', 'duration', 'name', 'repeatPeriod', 'tplans', 'id', 'numUsers', 'repeatNumber','status');\r",
+									"})\r",
+									"pm.test(\"Requiere after modules number check\", function () {\r",
+									"    console.log(\"After-no of modules: \"+jsonData.moduleGroups[0].module.length);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/modules?calStart=whatever",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"modules"
+							],
+							"query": [
+								{
+									"key": "calStart",
+									"value": "whatever"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Module Details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Response is Json\", function () {\r",
+									"   pm.response.to.be.json;\r",
+									"});\r",
+									"//Check each first level property and if one of the properties misses or add, the test shows fail.\r",
+									"pm.test(\"Response module has all following property: 'name', 'created', 'createdBy', 'modified','modifiedBy', 'prerequisitesName', 'groupName', 'references', 'url', 'description', 'duration', 'topics', 'pages', 'numUsers','courseId', 'groupId','prerequisites','prerequisitesAssigned','hasTest','moduleType','objectives','contentTags','tests','users','lang','usedLangs','tplans'\", function () {\r",
+									"    pm.expect(jsonData).to.have.all.keys('name', 'created', 'createdBy', 'modified','modifiedBy', 'prerequisitesName', 'groupName', 'references', 'url', 'description', 'duration', 'topics', 'pages', 'numUsers','courseId', 'groupId','prerequisites','prerequisitesAssigned','hasTest','moduleType','objectives','contentTags','tests','users','lang','usedLangs','tplans',);\r",
+									"})\r",
+									"// removing variable\r",
+									"pm.variables.unset(\"id\");\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, pm.environment.get(\"modelDetailSchema\"))).to.be.true; \r",
+									"    pm.environment.unset(\"modelDetailSchema\");   \r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//\r",
+									"let id=514;\r",
+									"pm.variables.set(\"id\", id);\r",
+									"\r",
+									"let modelDetailSchema={\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"http://example.com/example.json\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"name\",\r",
+									"        \"created\",\r",
+									"        \"createdBy\",\r",
+									"        \"modified\",\r",
+									"        \"modifiedBy\",\r",
+									"        \"prerequisitesName\",\r",
+									"        \"groupName\",\r",
+									"        \"references\",\r",
+									"        \"url\",\r",
+									"        \"description\",\r",
+									"        \"duration\",\r",
+									"        \"topics\",\r",
+									"        \"pages\",\r",
+									"        \"numUsers\",\r",
+									"        \"courseId\",\r",
+									"        \"groupId\",\r",
+									"        \"prerequisites\",\r",
+									"        \"prerequisitesAssigned\",\r",
+									"        \"hasTest\",\r",
+									"        \"moduleType\",\r",
+									"        \"objectives\",\r",
+									"        \"contentTags\",\r",
+									"        \"tests\",\r",
+									"        \"users\",\r",
+									"        \"lang\",\r",
+									"        \"usedLangs\",\r",
+									"        \"tplans\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"name\": {\r",
+									"            \"$id\": \"#/properties/name\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"created\": {\r",
+									"            \"$id\": \"#/properties/created\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"createdBy\": {\r",
+									"            \"$id\": \"#/properties/createdBy\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"modified\": {\r",
+									"            \"$id\": \"#/properties/modified\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"modifiedBy\": {\r",
+									"            \"$id\": \"#/properties/modifiedBy\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"prerequisitesName\": {\r",
+									"            \"$id\": \"#/properties/prerequisitesName\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"groupName\": {\r",
+									"            \"$id\": \"#/properties/groupName\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"references\": {\r",
+									"            \"$id\": \"#/properties/references\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"url\": {\r",
+									"            \"$id\": \"#/properties/url\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"$id\": \"#/properties/description\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"duration\": {\r",
+									"            \"$id\": \"#/properties/duration\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"topics\": {\r",
+									"            \"$id\": \"#/properties/topics\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"pages\": {\r",
+									"            \"$id\": \"#/properties/pages\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"numUsers\": {\r",
+									"            \"$id\": \"#/properties/numUsers\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"courseId\": {\r",
+									"            \"$id\": \"#/properties/courseId\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"groupId\": {\r",
+									"            \"$id\": \"#/properties/groupId\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"prerequisites\": {\r",
+									"            \"$id\": \"#/properties/prerequisites\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"prerequisitesAssigned\": {\r",
+									"            \"$id\": \"#/properties/prerequisitesAssigned\",\r",
+									"            \"type\": \"boolean\"\r",
+									"        },\r",
+									"        \"hasTest\": {\r",
+									"            \"$id\": \"#/properties/hasTest\",\r",
+									"            \"type\": \"boolean\"\r",
+									"        },\r",
+									"        \"moduleType\": {\r",
+									"            \"$id\": \"#/properties/moduleType\",\r",
+									"            \"type\": \"object\",\r",
+									"            \"required\": [\r",
+									"                \"id\",\r",
+									"                \"name\",\r",
+									"                \"desc\"\r",
+									"            ],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"#/properties/moduleType/properties/id\",\r",
+									"                    \"type\": \"string\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"#/properties/moduleType/properties/name\",\r",
+									"                    \"type\": \"string\"\r",
+									"                },\r",
+									"                \"desc\": {\r",
+									"                    \"$id\": \"#/properties/moduleType/properties/desc\",\r",
+									"                    \"type\": \"string\"\r",
+									"                }\r",
+									"            },\r",
+									"            \"additionalProperties\": false\r",
+									"        },\r",
+									"        \"objectives\": {\r",
+									"            \"$id\": \"#/properties/objectives\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/objectives/items\",\r",
+									"                \"anyOf\": [\r",
+									"                    {\r",
+									"                        \"$id\": \"#/properties/objectives/items/anyOf/0\",\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"required\": [\r",
+									"                            \"text\",\r",
+									"                            \"id\"\r",
+									"                        ],\r",
+									"                        \"properties\": {\r",
+									"                            \"text\": {\r",
+									"                                \"$id\": \"#/properties/objectives/items/anyOf/0/properties/text\",\r",
+									"                                \"type\": \"string\"\r",
+									"                            },\r",
+									"                            \"id\": {\r",
+									"                                \"$id\": \"#/properties/objectives/items/anyOf/0/properties/id\",\r",
+									"                                \"type\": \"integer\"\r",
+									"                            }\r",
+									"                        },\r",
+									"                        \"additionalProperties\": false\r",
+									"                    }\r",
+									"                ]\r",
+									"            }\r",
+									"        },\r",
+									"        \"contentTags\": {\r",
+									"            \"$id\": \"#/properties/contentTags\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/contentTags/items\",\r",
+									"                \"anyOf\": [\r",
+									"                    {\r",
+									"                        \"$id\": \"#/properties/contentTags/items/anyOf/0\",\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"required\": [\r",
+									"                            \"id\",\r",
+									"                            \"name\"\r",
+									"                        ],\r",
+									"                        \"properties\": {\r",
+									"                            \"id\": {\r",
+									"                                \"$id\": \"#/properties/contentTags/items/anyOf/0/properties/id\",\r",
+									"                                \"type\": \"integer\"\r",
+									"                            },\r",
+									"                            \"name\": {\r",
+									"                                \"$id\": \"#/properties/contentTags/items/anyOf/0/properties/name\",\r",
+									"                                \"type\": \"string\"\r",
+									"                            }\r",
+									"                        },\r",
+									"                        \"additionalProperties\": false\r",
+									"                    }\r",
+									"                ]\r",
+									"            }\r",
+									"        },\r",
+									"        \"tests\": {\r",
+									"            \"$id\": \"#/properties/tests\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/tests/items\"\r",
+									"            }\r",
+									"        },\r",
+									"        \"users\": {\r",
+									"            \"$id\": \"#/properties/users\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/users/items\"\r",
+									"            }\r",
+									"        },\r",
+									"        \"lang\": {\r",
+									"            \"$id\": \"#/properties/lang\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"usedLangs\": {\r",
+									"            \"$id\": \"#/properties/usedLangs\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/usedLangs/items\",\r",
+									"                \"anyOf\": [\r",
+									"                    {\r",
+									"                        \"$id\": \"#/properties/usedLangs/items/anyOf/0\",\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"required\": [\r",
+									"                            \"name\",\r",
+									"                            \"id\",\r",
+									"                            \"templateId\",\r",
+									"                            \"short\"\r",
+									"                        ],\r",
+									"                        \"properties\": {\r",
+									"                            \"name\": {\r",
+									"                                \"$id\": \"#/properties/usedLangs/items/anyOf/0/properties/name\",\r",
+									"                                \"type\": \"string\"\r",
+									"                            },\r",
+									"                            \"id\": {\r",
+									"                                \"$id\": \"#/properties/usedLangs/items/anyOf/0/properties/id\",\r",
+									"                                \"type\": \"integer\"\r",
+									"                            },\r",
+									"                            \"templateId\": {\r",
+									"                                \"$id\": \"#/properties/usedLangs/items/anyOf/0/properties/templateId\",\r",
+									"                                \"type\": \"integer\"\r",
+									"                            },\r",
+									"                            \"short\": {\r",
+									"                                \"$id\": \"#/properties/usedLangs/items/anyOf/0/properties/short\",\r",
+									"                                \"type\": \"string\"\r",
+									"                            }\r",
+									"                        },\r",
+									"                        \"additionalProperties\": false\r",
+									"                    }\r",
+									"                ]\r",
+									"            }\r",
+									"        },\r",
+									"        \"tplans\": {\r",
+									"            \"$id\": \"#/properties/tplans\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/tplans/items\"\r",
+									"            }\r",
+									"        }\r",
+									"    },\r",
+									"    \"additionalProperties\": false\r",
+									"};\r",
+									"\r",
+									"// pm.variables.set(\"modelDetailSchema\", modelDetailSchema);\r",
+									"pm.environment.set(\"modelDetailSchema\", modelDetailSchema);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/modules/details?id={{id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"modules",
+								"details"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Module create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Response is Json\", function () {\r",
+									"   pm.response.to.be.json;\r",
+									"});\r",
+									"pm.test(\"Status of the deleted module is 1\", function () {\r",
+									"   pm.expect(jsonData.status).to.be.equal(1);\r",
+									"});\r",
+									"// removing variable\r",
+									"pm.variables.unset(\"id\");\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, pm.environment.get(\"moduleUpdateSchema\"))).to.be.true; \r",
+									"    pm.environment.unset(\"moduleUpdateSchema\");   \r",
+									"});\r",
+									"pm.environment.set(\"newModuleId\", jsonData.id);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moduleUpdateSchema={\r",
+									"    \"$schema\": \"http://json-schema.org/draft-06/schema\",\r",
+									"    \"$id\": \"https://test.carriersedge.com/ce_test/rest_api/modules/cca/save\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"name\",\r",
+									"        \"status\",\r",
+									"        \"id\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"name\": {\r",
+									"            \"$id\": \"#/properties/name\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"status\": {\r",
+									"            \"$id\": \"#/properties/status\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"id\": {\r",
+									"            \"$id\": \"#/properties/id\",\r",
+									"            \"type\": \"integer\"\r",
+									"        }\r",
+									"    },\r",
+									"    \"additionalProperties\": false\r",
+									"};\r",
+									"pm.environment.set(\"moduleUpdateSchema\", moduleUpdateSchema);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "moduleName",
+									"value": " API-ModTest1 create",
+									"type": "text"
+								},
+								{
+									"key": "pk",
+									"value": " 9518",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "duration",
+									"value": " 20",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": " en",
+									"type": "text"
+								},
+								{
+									"key": "desc2",
+									"value": " This module is a test to check whether the test is working or not.",
+									"type": "text"
+								},
+								{
+									"key": "tagsProgramsModules",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "moduleExpiry",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "moduleExpiryDays",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "moduleExpiryUnits",
+									"value": " 1",
+									"type": "text"
+								},
+								{
+									"key": "moduleLimits",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "moduleLimitTimes",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "moduleLimitDays",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "payrate",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "payrateAmount",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "adminsOnly",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "includesHidden",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "completion",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "addTest",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "public",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "anonymous",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "lockdown1",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "courseObj",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "gid",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "contentType",
+									"value": " 1",
+									"type": "text"
+								},
+								{
+									"key": "fileName",
+									"value": " (binary)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/modules/cca/save",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"modules",
+								"cca",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Module update of new Module",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Response is Json\", function () {\r",
+									"   pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// removing variable\r",
+									"pm.variables.unset(\"id\");\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, pm.environment.get(\"moduleUpdateSchema\"))).to.be.true; \r",
+									"    pm.environment.unset(\"moduleUpdateSchema\");   \r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moduleUpdateSchema={\r",
+									"    \"$schema\": \"http://json-schema.org/draft-06/schema\",\r",
+									"    \"$id\": \"https://test.carriersedge.com/ce_test/rest_api/modules/cca/save\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"name\",\r",
+									"        \"status\",\r",
+									"        \"id\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"name\": {\r",
+									"            \"$id\": \"#/properties/name\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"status\": {\r",
+									"            \"$id\": \"#/properties/status\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"id\": {\r",
+									"            \"$id\": \"#/properties/id\",\r",
+									"            \"type\": \"integer\"\r",
+									"        }\r",
+									"    },\r",
+									"    \"additionalProperties\": false\r",
+									"};\r",
+									"pm.environment.set(\"moduleUpdateSchema\", moduleUpdateSchema);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "moduleName",
+									"value": " API-ModuleTest upds1",
+									"type": "text"
+								},
+								{
+									"key": "pk",
+									"value": "  {{newModuleId}}",
+									"type": "text"
+								},
+								{
+									"key": "duration",
+									"value": " 22",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": " en",
+									"type": "text"
+								},
+								{
+									"key": "desc2",
+									"value": " This module is a test to check whether the test is working or not.",
+									"type": "text"
+								},
+								{
+									"key": "tagsProgramsModules",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "moduleExpiry",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "moduleExpiryDays",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "moduleExpiryUnits",
+									"value": " 1",
+									"type": "text"
+								},
+								{
+									"key": "moduleLimits",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "moduleLimitTimes",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "moduleLimitDays",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "payrate",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "payrateAmount",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "adminsOnly",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "includesHidden",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "completion",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "addTest",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "public",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "anonymous",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "lockdown1",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "courseObj",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "gid",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "contentType",
+									"value": " 1",
+									"type": "text"
+								},
+								{
+									"key": "fileName",
+									"value": " (binary)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/modules/cca/save",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"modules",
+								"cca",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Module update first link",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response Body matches id\", function () {\r",
+									"    var id = pm.environment.get(\"newModuleId\");\r",
+									"    pm.expect(pm.response.text()).to.include(id);\r",
+									"    pm.expect(jsonData.id).to.be.equal(id);\r",
+									"    console.log(id);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"\r",
+									"//check the schema \r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, pm.environment.get(\"moduleUpdateSchema\"))).to.be.true;\r",
+									"    \r",
+									"});\r",
+									"pm.environment.unset(\"moduleUpdateSchema\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moduleUpdateSchema={\r",
+									"    \"$schema\": \"http://json-schema.org/draft-06/schema\",\r",
+									"    \"$id\": \"https://test.carriersedge.com/ce_test/rest_api/modules/cca/save\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"name\",\r",
+									"        \"status\",\r",
+									"        \"id\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"name\": {\r",
+									"            \"$id\": \"#/properties/name\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"status\": {\r",
+									"            \"$id\": \"#/properties/status\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"id\": {\r",
+									"            \"$id\": \"#/properties/id\",\r",
+									"            \"type\": \"integer\"\r",
+									"        }\r",
+									"    },\r",
+									"    \"additionalProperties\": false\r",
+									"};\r",
+									"pm.environment.set(\"moduleUpdateSchema\", moduleUpdateSchema);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "moduleExpiry",
+									"value": " 1",
+									"type": "text"
+								},
+								{
+									"key": "moduleExpiryDays",
+									"value": " 25",
+									"type": "text"
+								},
+								{
+									"key": "moduleExpiryUnits",
+									"value": " 1",
+									"type": "text"
+								},
+								{
+									"key": "moduleLimits",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "moduleLimitTimes",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "moduleLimitDays",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "payrate",
+									"value": " 1",
+									"type": "text"
+								},
+								{
+									"key": "payrateAmount",
+									"value": " 5",
+									"type": "text"
+								},
+								{
+									"key": "adminsOnly",
+									"value": " 1",
+									"type": "text"
+								},
+								{
+									"key": "completion",
+									"value": " 2",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "  {{newModuleId}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/modules/cca/save",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"modules",
+								"cca",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Module update second link",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moduleUpdateSchema={\r",
+									"    \"$schema\": \"http://json-schema.org/draft-06/schema\",\r",
+									"    \"$id\": \"https://test.carriersedge.com/ce_test/rest_api/modules/cca/save\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"name\",\r",
+									"        \"status\",\r",
+									"        \"id\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"name\": {\r",
+									"            \"$id\": \"#/properties/name\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"status\": {\r",
+									"            \"$id\": \"#/properties/status\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"id\": {\r",
+									"            \"$id\": \"#/properties/id\",\r",
+									"            \"type\": \"integer\"\r",
+									"        }\r",
+									"    },\r",
+									"    \"additionalProperties\": false\r",
+									"};\r",
+									"pm.environment.set(\"moduleUpdateSchema\", moduleUpdateSchema);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"pm.test(\"Response Body matches module id\", function () {\r",
+									"    var id = pm.environment.get(\"newModuleId\");\r",
+									"    pm.expect(pm.response.text()).to.include(id);\r",
+									"    pm.expect(jsonData.id).to.be.equal(id);\r",
+									"    console.log(id);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"//check the schema \r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, pm.environment.get(\"moduleUpdateSchema\"))).to.be.true;\r",
+									"    \r",
+									"});\r",
+									"pm.environment.unset(\"moduleUpdateSchema\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "resetStatus",
+									"value": " 1",
+									"type": "text"
+								},
+								{
+									"key": "sendNotice",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "includeLogin",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "carrierId",
+									"value": " 1709",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": " userProgramsModules",
+									"type": "text"
+								},
+								{
+									"key": "value",
+									"value": " user-api.user",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "  {{newModuleId}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/modules/cca/save",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"modules",
+								"cca",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Module Details of New Module",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Response is Json\", function () {\r",
+									"   pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// removing variable\r",
+									"pm.variables.unset(\"id\");\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, pm.environment.get(\"modelDetailSchema\"))).to.be.true; \r",
+									"    pm.environment.unset(\"modelDetailSchema\");   \r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//\r",
+									"let id=385;\r",
+									"pm.variables.set(\"id\", id);\r",
+									"\r",
+									"let modelDetailSchema={\r",
+									"    \"$schema\": \"http://json-schema.org/draft-06/schema\",\r",
+									"    \"$id\": \" POST https://test.carriersedge.com/ce_test/rest_api/modules/delete\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"name\",\r",
+									"        \"created\",\r",
+									"        \"createdBy\",\r",
+									"        \"modified\",\r",
+									"        \"modifiedBy\",\r",
+									"        \"groupName\",\r",
+									"        \"references\",\r",
+									"        \"description\",\r",
+									"        \"duration\",\r",
+									"        \"retraining\",\r",
+									"        \"repeatNumber\",\r",
+									"        \"repeatPeriod\",\r",
+									"        \"testTimeout\",\r",
+									"        \"forceNav\",\r",
+									"        \"forceQuiz\",\r",
+									"        \"contentType\",\r",
+									"        \"completion\",\r",
+									"        \"minutes\",\r",
+									"        \"pretest\",\r",
+									"        \"expiryNotice\",\r",
+									"        \"adminsOnly\",\r",
+									"        \"topics\",\r",
+									"        \"pages\",\r",
+									"        \"numUsers\",\r",
+									"        \"courseId\",\r",
+									"        \"groupId\",\r",
+									"        \"payrate\",\r",
+									"        \"hasTest\",\r",
+									"        \"hasQuizQuestions\",\r",
+									"        \"moduleType\",\r",
+									"        \"objectives\",\r",
+									"        \"contentTags\",\r",
+									"        \"tests\",\r",
+									"        \"users\",\r",
+									"        \"lang\",\r",
+									"        \"deliveryPrivs\",\r",
+									"        \"ccaId\",\r",
+									"        \"usedLangs\",\r",
+									"        \"tplans\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"name\": {\r",
+									"            \"$id\": \"#/properties/name\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"created\": {\r",
+									"            \"$id\": \"#/properties/created\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"createdBy\": {\r",
+									"            \"$id\": \"#/properties/createdBy\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"modified\": {\r",
+									"            \"$id\": \"#/properties/modified\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"modifiedBy\": {\r",
+									"            \"$id\": \"#/properties/modifiedBy\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"groupName\": {\r",
+									"            \"$id\": \"#/properties/groupName\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"references\": {\r",
+									"            \"$id\": \"#/properties/references\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"            \"$id\": \"#/properties/description\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"duration\": {\r",
+									"            \"$id\": \"#/properties/duration\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"retraining\": {\r",
+									"            \"$id\": \"#/properties/retraining\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"repeatNumber\": {\r",
+									"            \"$id\": \"#/properties/repeatNumber\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"repeatPeriod\": {\r",
+									"            \"$id\": \"#/properties/repeatPeriod\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"testTimeout\": {\r",
+									"            \"$id\": \"#/properties/testTimeout\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"forceNav\": {\r",
+									"            \"$id\": \"#/properties/forceNav\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"forceQuiz\": {\r",
+									"            \"$id\": \"#/properties/forceQuiz\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"contentType\": {\r",
+									"            \"$id\": \"#/properties/contentType\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"completion\": {\r",
+									"            \"$id\": \"#/properties/completion\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"minutes\": {\r",
+									"            \"$id\": \"#/properties/minutes\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"pretest\": {\r",
+									"            \"$id\": \"#/properties/pretest\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"expiryNotice\": {\r",
+									"            \"$id\": \"#/properties/expiryNotice\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"adminsOnly\": {\r",
+									"            \"$id\": \"#/properties/adminsOnly\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"topics\": {\r",
+									"            \"$id\": \"#/properties/topics\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"pages\": {\r",
+									"            \"$id\": \"#/properties/pages\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"numUsers\": {\r",
+									"            \"$id\": \"#/properties/numUsers\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"courseId\": {\r",
+									"            \"$id\": \"#/properties/courseId\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"groupId\": {\r",
+									"            \"$id\": \"#/properties/groupId\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"payrate\": {\r",
+									"            \"$id\": \"#/properties/payrate\",\r",
+									"            \"type\": \"number\"\r",
+									"        },\r",
+									"        \"hasTest\": {\r",
+									"            \"$id\": \"#/properties/hasTest\",\r",
+									"            \"type\": \"boolean\"\r",
+									"        },\r",
+									"        \"hasQuizQuestions\": {\r",
+									"            \"$id\": \"#/properties/hasQuizQuestions\",\r",
+									"            \"type\": \"boolean\"\r",
+									"        },\r",
+									"        \"moduleType\": {\r",
+									"            \"$id\": \"#/properties/moduleType\",\r",
+									"            \"type\": \"object\",\r",
+									"            \"required\": [\r",
+									"                \"id\",\r",
+									"                \"name\",\r",
+									"                \"desc\"\r",
+									"            ],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"#/properties/moduleType/properties/id\",\r",
+									"                    \"type\": \"string\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"#/properties/moduleType/properties/name\",\r",
+									"                    \"type\": \"string\"\r",
+									"                },\r",
+									"                \"desc\": {\r",
+									"                    \"$id\": \"#/properties/moduleType/properties/desc\",\r",
+									"                    \"type\": \"string\"\r",
+									"                }\r",
+									"            },\r",
+									"            \"additionalProperties\": false\r",
+									"        },\r",
+									"        \"objectives\": {\r",
+									"            \"$id\": \"#/properties/objectives\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/objectives/items\"\r",
+									"            }\r",
+									"        },\r",
+									"        \"contentTags\": {\r",
+									"            \"$id\": \"#/properties/contentTags\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/contentTags/items\",\r",
+									"                \"anyOf\": [\r",
+									"                    {\r",
+									"                        \"$id\": \"#/properties/contentTags/items/anyOf/0\",\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"required\": [\r",
+									"                            \"id\",\r",
+									"                            \"name\"\r",
+									"                        ],\r",
+									"                        \"properties\": {\r",
+									"                            \"id\": {\r",
+									"                                \"$id\": \"#/properties/contentTags/items/anyOf/0/properties/id\",\r",
+									"                                \"type\": \"integer\"\r",
+									"                            },\r",
+									"                            \"name\": {\r",
+									"                                \"$id\": \"#/properties/contentTags/items/anyOf/0/properties/name\",\r",
+									"                                \"type\": \"string\"\r",
+									"                            }\r",
+									"                        },\r",
+									"                        \"additionalProperties\": false\r",
+									"                    }\r",
+									"                ]\r",
+									"            }\r",
+									"        },\r",
+									"        \"tests\": {\r",
+									"            \"$id\": \"#/properties/tests\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/tests/items\"\r",
+									"            }\r",
+									"        },\r",
+									"        \"users\": {\r",
+									"            \"$id\": \"#/properties/users\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/users/items\"\r",
+									"            }\r",
+									"        },\r",
+									"        \"lang\": {\r",
+									"            \"$id\": \"#/properties/lang\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"deliveryPrivs\": {\r",
+									"            \"$id\": \"#/properties/deliveryPrivs\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"ccaId\": {\r",
+									"            \"$id\": \"#/properties/ccaId\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"usedLangs\": {\r",
+									"            \"$id\": \"#/properties/usedLangs\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/usedLangs/items\",\r",
+									"                \"anyOf\": [\r",
+									"                    {\r",
+									"                        \"$id\": \"#/properties/usedLangs/items/anyOf/0\",\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"required\": [\r",
+									"                            \"name\",\r",
+									"                            \"id\",\r",
+									"                            \"templateId\",\r",
+									"                            \"short\"\r",
+									"                        ],\r",
+									"                        \"properties\": {\r",
+									"                            \"name\": {\r",
+									"                                \"$id\": \"#/properties/usedLangs/items/anyOf/0/properties/name\",\r",
+									"                                \"type\": \"string\"\r",
+									"                            },\r",
+									"                            \"id\": {\r",
+									"                                \"$id\": \"#/properties/usedLangs/items/anyOf/0/properties/id\",\r",
+									"                                \"type\": \"integer\"\r",
+									"                            },\r",
+									"                            \"templateId\": {\r",
+									"                                \"$id\": \"#/properties/usedLangs/items/anyOf/0/properties/templateId\",\r",
+									"                                \"type\": \"null\"\r",
+									"                            },\r",
+									"                            \"short\": {\r",
+									"                                \"$id\": \"#/properties/usedLangs/items/anyOf/0/properties/short\",\r",
+									"                                \"type\": \"string\"\r",
+									"                            }\r",
+									"                        },\r",
+									"                        \"additionalProperties\": false\r",
+									"                    }\r",
+									"                ]\r",
+									"            }\r",
+									"        },\r",
+									"        \"tplans\": {\r",
+									"            \"$id\": \"#/properties/tplans\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/tplans/items\"\r",
+									"            }\r",
+									"        }\r",
+									"    },\r",
+									"    \"additionalProperties\": false\r",
+									"};\r",
+									"\r",
+									"// pm.variables.set(\"modelDetailSchema\", modelDetailSchema);\r",
+									"pm.environment.set(\"modelDetailSchema\", modelDetailSchema);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/modules/details?id= {{newModuleId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"modules",
+								"details"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": " {{newModuleId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Module delete",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moduleDeleteSchema={\r",
+									"    \"$schema\": \"http://json-schema.org/draft-06/schema\",\r",
+									"    \"$id\": \" POST https://test.carriersedge.com/ce_test/rest_api/modules/delete\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"name\",\r",
+									"        \"status\",\r",
+									"        \"moduleType\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"name\": {\r",
+									"            \"$id\": \"#/properties/name\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"status\": {\r",
+									"            \"$id\": \"#/properties/status\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"moduleType\": {\r",
+									"            \"$id\": \"#/properties/moduleType\",\r",
+									"            \"type\": \"object\",\r",
+									"            \"required\": [\r",
+									"                \"id\",\r",
+									"                \"name\",\r",
+									"                \"desc\"\r",
+									"            ],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"#/properties/moduleType/properties/id\",\r",
+									"                    \"type\": \"integer\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"#/properties/moduleType/properties/name\",\r",
+									"                    \"type\": \"string\"\r",
+									"                },\r",
+									"                \"desc\": {\r",
+									"                    \"$id\": \"#/properties/moduleType/properties/desc\",\r",
+									"                    \"type\": \"string\"\r",
+									"                }\r",
+									"            },\r",
+									"            \"additionalProperties\": false\r",
+									"        }\r",
+									"    },\r",
+									"    \"additionalProperties\": false\r",
+									"};\r",
+									"pm.environment.set(\"moduleDeleteSchema\", moduleDeleteSchema);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Status of the deleted module is 0\", function () {\r",
+									"   pm.expect(jsonData.status).to.be.equal(0);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"\r",
+									"//check the schema \r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, pm.environment.get(\"moduleDeleteSchema\"))).to.be.true;\r",
+									"    \r",
+									"});\r",
+									"pm.environment.unset(\"moduleDeleteSchema\");\r",
+									"// pm.environment.unset(\"newModuleId\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": " {{newModuleId}}",
+									"type": "text"
+								},
+								{
+									"key": "courseIds",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/modules/delete",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"modules",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Module update of the deleted Module",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response must be valid and have a body\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.be.error;\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Response is Json\", function () {\r",
+									"   pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// removing variable\r",
+									"pm.variables.unset(\"id\");\r",
+									"pm.test('Schema of deleted module is changed', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, pm.environment.get(\"moduleUpdateSchema\"))).to.be.false; \r",
+									"    pm.environment.unset(\"moduleUpdateSchema\");   \r",
+									"});\r",
+									"pm.test(\"Status property not present when update the deleted module\", function () {\r",
+									"   pm.expect(jsonData).to.not.have.property(\"status\");\r",
+									"//    pm.expect(jsonData).to.not.have.property(\"id\");\r",
+									"});\r",
+									"// uncomment below line if you want to track deleted module id\r",
+									"// pm.environment.unset(\"newModuleId\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moduleUpdateSchema={\r",
+									"    \"$schema\": \"http://json-schema.org/draft-06/schema\",\r",
+									"    \"$id\": \"https://test.carriersedge.com/ce_test/rest_api/modules/cca/save\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"required\": [\r",
+									"        \"name\",\r",
+									"        \"status\",\r",
+									"        \"id\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"name\": {\r",
+									"            \"$id\": \"#/properties/name\",\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"status\": {\r",
+									"            \"$id\": \"#/properties/status\",\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"id\": {\r",
+									"            \"$id\": \"#/properties/id\",\r",
+									"            \"type\": \"integer\"\r",
+									"        }\r",
+									"    },\r",
+									"    \"additionalProperties\": false\r",
+									"};\r",
+									"pm.environment.set(\"moduleUpdateSchema\", moduleUpdateSchema);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "moduleName",
+									"value": " API-ModuleTest update",
+									"type": "text"
+								},
+								{
+									"key": "pk",
+									"value": "  {{newModuleId}}",
+									"type": "text"
+								},
+								{
+									"key": "duration",
+									"value": " 22",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": " en",
+									"type": "text"
+								},
+								{
+									"key": "desc2",
+									"value": " This module is a test to check whether the test is working or not.",
+									"type": "text"
+								},
+								{
+									"key": "tagsProgramsModules",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "moduleExpiry",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "moduleExpiryDays",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "moduleExpiryUnits",
+									"value": " 1",
+									"type": "text"
+								},
+								{
+									"key": "moduleLimits",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "moduleLimitTimes",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "moduleLimitDays",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "payrate",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "payrateAmount",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "adminsOnly",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "includesHidden",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "completion",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "addTest",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "public",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "anonymous",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "lockdown1",
+									"value": " 0",
+									"type": "text"
+								},
+								{
+									"key": "courseObj",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "gid",
+									"value": " ",
+									"type": "text"
+								},
+								{
+									"key": "contentType",
+									"value": " 1",
+									"type": "text"
+								},
+								{
+									"key": "fileName",
+									"value": " (binary)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/modules/cca/save",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"modules",
+								"cca",
+								"save"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Places",
+			"item": [
+				{
+					"name": "Places Lists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response must be valid and have a body\", function() {",
+									"    pm.response.to.be.success;",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"    pm.response.to.not.be.error;",
+									"});",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"pm.test(\"Response has \", function () {",
+									"    pm.expect(jsonData).to.have.property('places');",
+									"    //pm.expect(jsonData).place",
+									"    pm.expect(jsonData.places[0]).to.have.all.keys('userCount', 'name', 'locCount', 'id','status');",
+									"    //pm.expect(jsonData[0]).to.have.all.keys('name', 'id', 'status');",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/places",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"places"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Place Details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response must be valid and have a body\", function() {",
+									"    pm.response.to.be.success;",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"    pm.response.to.not.be.error;",
+									"});",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"pm.test(\"Response has \", function () {",
+									"    pm.expect(jsonData).to.have.property('places');",
+									"    //pm.expect(jsonData).place",
+									"    pm.expect(jsonData.places[0]).to.have.all.keys('userCount', 'name', 'locCount', 'id','status');",
+									"    //pm.expect(jsonData[0]).to.have.all.keys('name', 'id', 'status');",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/places?id=4222",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"places"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "4222"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Place",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"status\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Date\");",
+									"});",
+									"pm.test(\"Response has \", function () {",
+									"    pm.expect(jsonData).to.have.property('place');",
+									"    //pm.expect(jsonData).place",
+									"    pm.expect(jsonData.place[0]).to.have.all.keys('name', 'id', 'status');",
+									"    //pm.expect(jsonData[0]).to.have.all.keys('name', 'id', 'status');",
+									"})",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{uname}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "21375",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "locationName",
+									"value": "Aloc",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rest_api/places/save",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest_api",
+								"places",
+								"save"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "locationName",
+									"value": "Aloc",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
